@@ -13,7 +13,7 @@ var i service.Interactor
 func New(interactor service.Interactor) http.Handler {
 	i = interactor
 	r := mux.NewRouter()
-	r.HandleFunc("/search", search)
+	r.HandleFunc("/search/{keyword}", search)
 
 	return r
 }
