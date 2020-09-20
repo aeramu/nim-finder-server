@@ -12,7 +12,7 @@ type Resolver interface {
 		First   int32
 		After   *graphql.ID
 		Before  *graphql.ID
-	}) Userconnection
+	}) UserConnection
 }
 
 type resolver struct {
@@ -24,7 +24,7 @@ func (r *resolver) Search(args struct {
 	First   int32
 	After   *graphql.ID
 	Before  *graphql.ID
-}) Userconnection {
+}) UserConnection {
 	users := r.i.Search(args.Keyword)
 	return &userConnection{users}
 }

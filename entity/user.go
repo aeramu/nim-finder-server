@@ -13,3 +13,7 @@ type User struct {
 	EmailITB   string `bson:"email_itb"`
 	Email      string `bson:"email"`
 }
+
+func (u *User) Id() string {
+	return u.ID
+}

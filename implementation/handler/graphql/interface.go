@@ -3,21 +3,18 @@ package graphql
 import (
 	"net/http"
 
-	"github.com/aeramu/nim-finder-server/usecase/adapter"
+	"github.com/aeramu/nim-finder-server/usecase/service"
 	"github.com/graph-gophers/graphql-go"
 	"github.com/graph-gophers/graphql-go/relay"
 )
 
 //New handler
-func New(r adapter.Repository) http.Handler {
+func New(i service.Interactor) http.Handler {
 	schema := graphql.MustParseSchema(schemaString, &resolver{
 		i: i,
 	})
 
-	return &handler{
-		r:     r,
-		relay: &relay.Handler{Schema: schema},
-	}
+	return &relay.Handler{Schema: schema}
 }
 
 var schemaString = `
