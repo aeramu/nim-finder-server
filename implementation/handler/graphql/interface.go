@@ -11,8 +11,7 @@ import (
 //New handler
 func New(r adapter.Repository) http.Handler {
 	schema := graphql.MustParseSchema(schemaString, &resolver{
-		Context:    ctx,
-		Interactor: i,
+		i: i,
 	})
 
 	return &handler{
@@ -26,7 +25,7 @@ var schemaString = `
 		query: Query
   	}
   	type Query{
-		search(keyword: String!, first: Int, after: ID, before: ID): UserConnection!
+		search(keyword: String!, first: Int!, after: ID, before: ID): UserConnection!
 	}
 	type User{
 		id: ID!
