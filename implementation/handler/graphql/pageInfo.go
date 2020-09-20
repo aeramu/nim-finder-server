@@ -10,22 +10,20 @@ type PageInfo interface {
 	EndCursor() *graphql.ID
 }
 
-type pageInfo struct {
-	nodeList []interface{ ID() graphql.ID }
-}
+type pageInfo []interface{ ID() graphql.ID }
 
 func (r pageInfo) StartCursor() *graphql.ID {
-	if len(r.nodeList) == 0 {
+	if len(r) == 0 {
 		return nil
 	}
-	startCursor := graphql.ID(r.nodeList[0].ID())
+	startCursor := graphql.ID(r[0].ID())
 	return &startCursor
 }
 
 func (r pageInfo) EndCursor() *graphql.ID {
-	if len(r.nodeList) == 0 {
+	if len(r) == 0 {
 		return nil
 	}
-	endCursor := graphql.ID(r.nodeList[len(r.nodeList)-1].ID())
+	endCursor := graphql.ID(r[len(r)-1].ID())
 	return &endCursor
 }

@@ -5,16 +5,6 @@ import (
 	"github.com/graph-gophers/graphql-go"
 )
 
-//Resolver graphql
-type Resolver interface {
-	Search(args struct {
-		Keyword string
-		First   int32
-		After   *graphql.ID
-		Before  *graphql.ID
-	}) UserConnection
-}
-
 type resolver struct {
 	i service.Interactor
 }
@@ -24,7 +14,7 @@ func (r *resolver) Search(args struct {
 	First   int32
 	After   *graphql.ID
 	Before  *graphql.ID
-}) UserConnection {
+}) userConnection {
 	users := r.i.Search(args.Keyword, int(args.First))
-	return &userConnection{users}
+	return userConnection(users)
 }

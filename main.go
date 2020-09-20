@@ -10,6 +10,7 @@ import (
 	"github.com/friendsofgo/graphiql"
 )
 
+//TODOL implement pagination
 func main() {
 	repo := mongodb.New()
 	interactor := service.New(repo)

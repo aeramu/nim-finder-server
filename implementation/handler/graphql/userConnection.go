@@ -5,19 +5,12 @@ import (
 	"github.com/graph-gophers/graphql-go"
 )
 
-//UserConnection graphql
-type UserConnection interface {
-	Edges() []User
-	PageInfo() PageInfo
-}
+type userConnection []entity.User
 
-type userConnection struct {
-	users []entity.User
-}
+func (uc userConnection) Edges() []user {
 
-func (uc userConnection) Edges() []User {
-	var users []User
-	for _, u := range uc.users {
+	var users []user
+	for _, u := range uc {
 		users = append(users, user{u})
 	}
 
@@ -26,8 +19,8 @@ func (uc userConnection) Edges() []User {
 
 func (uc userConnection) PageInfo() PageInfo {
 	var nodes []interface{ ID() graphql.ID }
-	for _, u := range uc.users {
+	for _, u := range uc {
 		nodes = append(nodes, user{u})
 	}
-	return pageInfo{nodes}
+	return pageInfo(nodes)
 }
