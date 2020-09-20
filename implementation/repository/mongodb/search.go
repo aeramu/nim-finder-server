@@ -23,8 +23,8 @@ func (r *repository) Search(keyword string, limit int) []entity.User {
 		panic(err)
 	}
 
-	var users []entity.User
+	var users users
 	cursor.All(context.TODO(), &users)
 
-	return users
+	return users.entity()
 }

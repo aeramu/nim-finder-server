@@ -28,6 +28,7 @@ func (c UserConstructor) New() User {
 		id:         c.ID,
 		nimTPB:     c.NimTPB,
 		nimJurusan: c.NimJurusan,
+		nama:       c.Nama,
 		status:     c.Status,
 		fakultas:   c.Fakultas,
 		jurusan:    c.Jurusan,

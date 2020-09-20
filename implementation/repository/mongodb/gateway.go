@@ -1,7 +1,11 @@
 package mongodb
 
+import (
+	"github.com/aeramu/nim-finder-server/entity"
+)
+
 //User entity
-type User struct {
+type user struct {
 	ID         string `bson:"_id"`
 	Username   string `bson:"username"`
 	NimTPB     string `bson:"nim_tpb"`
@@ -12,4 +16,26 @@ type User struct {
 	Jurusan    string `bson:"jurusan"`
 	EmailITB   string `bson:"email_itb"`
 	Email      string `bson:"email"`
+}
+
+func (u user) entity() entity.User {
+	return entity.UserConstructor{
+		ID:         u.ID,
+		NimTPB:     u.NimTPB,
+		NimJurusan: u.NimJurusan,
+		Nama:       u.Nama,
+		Status:     u.Status,
+		Fakultas:   u.Fakultas,
+		Jurusan:    u.Jurusan,
+	}.New()
+}
+
+type users []*user
+
+func (u users) entity() []entity.User {
+	var users []entity.User
+	for _, user := range u {
+		users = append(users, user.entity())
+	}
+	return users
 }
