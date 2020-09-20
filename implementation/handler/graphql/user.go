@@ -21,29 +21,29 @@ type user struct {
 }
 
 func (u user) ID() graphql.ID {
-	return graphql.ID(u.user.ID)
+	return graphql.ID(u.user.ID())
 }
 
 func (u user) NimTPB() string {
-	return u.user.NimTPB
+	return u.user.NimTPB()
 }
 
 func (u user) NimJurusan() string {
-	return u.user.NimJurusan
+	return u.user.NimJurusan()
 }
 
 func (u user) Nama() string {
-	return u.user.Nama
+	return u.user.Nama()
 }
 
 func (u user) Fakultas() string {
-	return u.user.Fakultas
+	return u.user.Fakultas()
 }
 
 func (u user) Jurusan() string {
-	return u.user.Jurusan
+	return u.user.Jurusan()
 }
 
 func (u user) Status() string {
-	return u.user.Status
+	return u.user.Status()
 }
