@@ -12,11 +12,13 @@ import (
 func (r *repository) Search(keyword string, limit int) []entity.User {
 	opt := options.Find().SetSort(bson.D{{"status", -1}}).SetLimit(int64(limit))
 
-	cursor, err := r.nim.Find(context.TODO(), bson.D{{"$or", bson.A{
+	search := bson.D{{"$or", bson.A{
 		bson.D{{"nama", bson.D{{"$regex", ".*" + keyword + ".*"}, {"$options", "i"}}}},
 		bson.D{{"nim_jurusan", bson.D{{"$regex", ".*" + keyword + ".*"}, {"$options", "i"}}}},
 		bson.D{{"nim_tpb", bson.D{{"$regex", ".*" + keyword + ".*"}, {"$options", "i"}}}},
-	}}}, opt)
+	}}}
+
+	cursor, err := r.nim.Find(context.TODO(), search, opt)
 	if err != nil {
 		panic(err)
 	}
