@@ -1,19 +1,73 @@
 package entity
 
-//User entity
-type User struct {
-	ID         string `bson:"_id"`
-	Username   string `bson:"username"`
-	NimTPB     string `bson:"nim_tpb"`
-	NimJurusan string `bson:"nim_jurusan"`
-	Nama       string `bson:"nama"`
-	Status     string `bson:"status"`
-	Fakultas   string `bson:"fakultas"`
-	Jurusan    string `bson:"jurusan"`
-	EmailITB   string `bson:"email_itb"`
-	Email      string `bson:"email"`
+//User interface
+type User interface {
+	ID() string
+	NimTPB() string
+	NimJurusan() string
+	Nama() string
+	Status() string
+	Fakultas() string
+	Jurusan() string
 }
 
-func (u *User) Id() string {
-	return u.ID
+//UserConstructor entity
+type UserConstructor struct {
+	ID         string
+	NimTPB     string
+	NimJurusan string
+	Nama       string
+	Status     string
+	Fakultas   string
+	Jurusan    string
+}
+
+//New return User interface
+func (c UserConstructor) New() User {
+	return &user{
+		id:         c.ID,
+		nimTPB:     c.NimTPB,
+		nimJurusan: c.NimJurusan,
+		status:     c.Status,
+		fakultas:   c.Fakultas,
+		jurusan:    c.Jurusan,
+	}
+}
+
+type user struct {
+	id         string
+	nimTPB     string
+	nimJurusan string
+	nama       string
+	status     string
+	fakultas   string
+	jurusan    string
+}
+
+func (u user) ID() string {
+	return u.id
+}
+
+func (u user) NimTPB() string {
+	return u.nimTPB
+}
+
+func (u user) NimJurusan() string {
+	return u.nimJurusan
+}
+
+func (u user) Nama() string {
+	return u.nama
+}
+
+func (u user) Status() string {
+	return u.status
+}
+
+func (u user) Fakultas() string {
+	return u.fakultas
+}
+
+func (u user) Jurusan() string {
+	return u.jurusan
 }
