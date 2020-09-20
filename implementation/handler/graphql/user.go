@@ -13,6 +13,7 @@ type User interface {
 	Nama() string
 	Fakultas() string
 	Jurusan() string
+	Status() string
 }
 
 type user struct {
@@ -41,4 +42,8 @@ func (u user) Fakultas() string {
 
 func (u user) Jurusan() string {
 	return u.user.Jurusan
+}
+
+func (u user) Status() string {
+	return u.user.Status
 }

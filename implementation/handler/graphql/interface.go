@@ -31,6 +31,7 @@ var schemaString = `
 		nama: String!
 		fakultas: String!
 		jurusan: String!
+		status: String!
 	}
 	type UserConnection{
 		edges: [User]!
