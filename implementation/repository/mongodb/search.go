@@ -9,9 +9,8 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 )
 
-func (r *repository) Search(keyword string) []entity.User {
-	opt := options.Find()
-	opt.SetSort(bson.D{{"status", -1}})
+func (r *repository) Search(keyword string, limit int) []entity.User {
+	opt := options.Find().SetSort(bson.D{{"status", -1}}).SetLimit(int64(limit))
 
 	cursor, err := r.nim.Find(context.TODO(), bson.D{{"$or", bson.A{
 		bson.D{{"nama", bson.D{{"$regex", ".*" + keyword + ".*"}, {"$options", "i"}}}},

@@ -25,6 +25,6 @@ func (r *resolver) Search(args struct {
 	After   *graphql.ID
 	Before  *graphql.ID
 }) UserConnection {
-	users := r.i.Search(args.Keyword)
+	users := r.i.Search(args.Keyword, int(args.First))
 	return &userConnection{users}
 }
