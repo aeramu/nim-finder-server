@@ -22,7 +22,7 @@ var schemaString = `
 		query: Query
   	}
   	type Query{
-		search(keyword: String!, first: Int!, after: ID, before: ID): UserConnection!
+		search(keyword: String!, first: Int!, after: ID): UserConnection!
 	}
 	type User{
 		id: ID!
@@ -34,7 +34,7 @@ var schemaString = `
 		status: String!
 	}
 	type UserConnection{
-		edges: [User]!
+		edges: [User!]!
 		pageInfo: PageInfo!
 	}
 	type PageInfo{

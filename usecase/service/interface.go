@@ -14,5 +14,5 @@ func New(r adapter.Repository) Interactor {
 
 //Interactor service
 type Interactor interface {
-	Search(keyword string, limit int) []entity.User
+	Search(keyword string, limit int, after string) []entity.User
 }

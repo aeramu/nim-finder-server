@@ -13,8 +13,11 @@ func (r *resolver) Search(args struct {
 	Keyword string
 	First   int32
 	After   *graphql.ID
-	Before  *graphql.ID
 }) userConnection {
-	users := r.i.Search(args.Keyword, int(args.First))
+	after := ""
+	if args.After != nil {
+		after = string(*args.After)
+	}
+	users := r.i.Search(args.Keyword, int(args.First), after)
 	return userConnection(users)
 }
