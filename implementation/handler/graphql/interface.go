@@ -40,5 +40,6 @@ var schemaString = `
 	type PageInfo{
 		startCursor: ID
 		endCursor: ID
+		hasNextPage: Boolean!
 	}
 `

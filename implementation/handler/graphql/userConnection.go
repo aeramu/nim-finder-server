@@ -17,7 +17,7 @@ func (uc userConnection) Edges() []user {
 	return users
 }
 
-func (uc userConnection) PageInfo() PageInfo {
+func (uc userConnection) PageInfo() pageInfo {
 	var nodes []interface{ ID() graphql.ID }
 	for _, u := range uc {
 		nodes = append(nodes, user{u})

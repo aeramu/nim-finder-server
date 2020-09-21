@@ -4,12 +4,6 @@ import (
 	"github.com/graph-gophers/graphql-go"
 )
 
-//PageInfo graphql
-type PageInfo interface {
-	StartCursor() *graphql.ID
-	EndCursor() *graphql.ID
-}
-
 type pageInfo []interface{ ID() graphql.ID }
 
 func (r pageInfo) StartCursor() *graphql.ID {
@@ -26,4 +20,11 @@ func (r pageInfo) EndCursor() *graphql.ID {
 	}
 	endCursor := graphql.ID(r[len(r)-1].ID())
 	return &endCursor
+}
+
+func (r pageInfo) HasNextPage() bool {
+	if len(r) == 0 {
+		return false
+	}
+	return true
 }
