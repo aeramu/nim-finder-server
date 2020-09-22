@@ -16,7 +16,7 @@ func main() {
 	repo := mongodb.New()
 	interactor := service.New(repo)
 	handler := graphql.New(interactor)
-	http.Handle("/", handler)
+	http.Handle("/", enableCORS(handler))
 
 	graphiql, _ := graphiql.NewGraphiqlHandler("/")
 	http.Handle("/graphiql", graphiql)
@@ -33,4 +33,11 @@ func port() string {
 		port = "8000"
 	}
 	return ":" + port
+}
+
+func enableCORS(h http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		h.ServeHTTP(w, r)
+	})
 }
