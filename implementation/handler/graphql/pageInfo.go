@@ -1,30 +1,20 @@
 package graphql
 
 import (
+	"github.com/aeramu/nim-finder-server/entity"
 	"github.com/graph-gophers/graphql-go"
 )
 
-type pageInfo []interface{ ID() graphql.ID }
+type pageInfo struct {
+	entity.PageInfo
+}
 
 func (r pageInfo) StartCursor() *graphql.ID {
-	if len(r) == 0 {
-		return nil
-	}
-	startCursor := graphql.ID(r[0].ID())
+	startCursor := graphql.ID(r.PageInfo.StartCursor())
 	return &startCursor
 }
 
 func (r pageInfo) EndCursor() *graphql.ID {
-	if len(r) == 0 {
-		return nil
-	}
-	endCursor := graphql.ID(r[len(r)-1].ID())
+	endCursor := graphql.ID(r.PageInfo.EndCursor())
 	return &endCursor
-}
-
-func (r pageInfo) HasNextPage() bool {
-	if len(r) == 0 {
-		return false
-	}
-	return true
 }

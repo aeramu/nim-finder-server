@@ -19,5 +19,5 @@ func (r *resolver) Search(args struct {
 		after = string(*args.After)
 	}
 	users := r.i.Search(args.Keyword, int(args.First), after)
-	return userConnection(users)
+	return userConnection{users}
 }

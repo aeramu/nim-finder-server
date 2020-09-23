@@ -2,15 +2,16 @@ package graphql
 
 import (
 	"github.com/aeramu/nim-finder-server/entity"
-	"github.com/graph-gophers/graphql-go"
 )
 
-type userConnection []entity.User
+type userConnection struct {
+	entity.UserConnection
+}
 
 func (uc userConnection) Edges() []user {
 
 	var users []user
-	for _, u := range uc {
+	for _, u := range uc.UserConnection.Edges() {
 		users = append(users, user{u})
 	}
 
@@ -18,9 +19,5 @@ func (uc userConnection) Edges() []user {
 }
 
 func (uc userConnection) PageInfo() pageInfo {
-	var nodes []interface{ ID() graphql.ID }
-	for _, u := range uc {
-		nodes = append(nodes, user{u})
-	}
-	return pageInfo(nodes)
+	return pageInfo{uc.UserConnection.PageInfo()}
 }

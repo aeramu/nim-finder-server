@@ -4,5 +4,5 @@ import "github.com/aeramu/nim-finder-server/entity"
 
 //Repository adapter
 type Repository interface {
-	Search(keyword string, limit int, after string) []entity.User
+	Search(keyword string, limit int, after string) entity.UserConnection
 }

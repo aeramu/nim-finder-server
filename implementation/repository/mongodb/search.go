@@ -11,7 +11,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 )
 
-func (r *repository) Search(keyword string, limit int, after string) []entity.User {
+func (r *repository) Search(keyword string, limit int, after string) entity.UserConnection {
 	search := bson.D{{"$or", bson.A{
 		bson.D{{"nama", bson.D{{"$regex", ".*" + keyword + ".*"}, {"$options", "i"}}}},
 		bson.D{{"nim_jurusan", bson.D{{"$regex", ".*" + keyword + ".*"}, {"$options", "i"}}}},
@@ -29,8 +29,13 @@ func (r *repository) Search(keyword string, limit int, after string) []entity.Us
 		panic(err)
 	}
 
-	var users users
-	cursor.All(context.TODO(), &users)
+	var models []userModel
+	cursor.All(context.TODO(), &models)
 
-	return users.entity()
+	var users []entity.User
+	for _, model := range models {
+		users = append(users, user{model})
+	}
+
+	return userConnection{users, limit}
 }

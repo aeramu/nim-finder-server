@@ -1,11 +1,9 @@
 package mongodb
 
-import (
-	"github.com/aeramu/nim-finder-server/entity"
-)
+import "github.com/aeramu/nim-finder-server/entity"
 
 //User entity
-type user struct {
+type userModel struct {
 	ID         string `bson:"_id"`
 	Username   string `bson:"username"`
 	NimTPB     string `bson:"nim_tpb"`
@@ -18,24 +16,64 @@ type user struct {
 	Email      string `bson:"email"`
 }
 
-func (u user) entity() entity.User {
-	return entity.UserConstructor{
-		ID:         u.ID,
-		NimTPB:     u.NimTPB,
-		NimJurusan: u.NimJurusan,
-		Nama:       u.Nama,
-		Status:     u.Status,
-		Fakultas:   u.Fakultas,
-		Jurusan:    u.Jurusan,
-	}.New()
+type user struct {
+	m userModel
 }
 
-type users []*user
+func (u user) ID() string {
+	return u.m.ID
+}
 
-func (u users) entity() []entity.User {
-	var users []entity.User
-	for _, user := range u {
-		users = append(users, user.entity())
-	}
-	return users
+func (u user) NimTPB() string {
+	return u.m.NimTPB
+}
+
+func (u user) NimJurusan() string {
+	return u.m.NimJurusan
+}
+
+func (u user) Nama() string {
+	return u.m.Nama
+}
+
+func (u user) Status() string {
+	return u.m.Status
+}
+
+func (u user) Fakultas() string {
+	return u.m.Fakultas
+}
+
+func (u user) Jurusan() string {
+	return u.m.Jurusan
+}
+
+type userConnection struct {
+	edges []entity.User
+	limit int
+}
+
+func (uc userConnection) Edges() []entity.User {
+	return uc.edges
+}
+
+func (uc userConnection) PageInfo() entity.PageInfo {
+	return pageInfo{uc.edges[:uc.limit], (len(uc.edges) >= uc.limit)}
+}
+
+type pageInfo struct {
+	edges       []entity.User
+	hasNextPage bool
+}
+
+func (p pageInfo) StartCursor() string {
+	return p.edges[0].ID()
+}
+
+func (p pageInfo) EndCursor() string {
+	return p.edges[len(p.edges)-1].ID()
+}
+
+func (p pageInfo) HasNextPage() bool {
+	return p.hasNextPage
 }
