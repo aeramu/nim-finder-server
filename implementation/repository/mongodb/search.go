@@ -20,7 +20,7 @@ func (r *repository) Search(keyword string, limit int, after string) entity.User
 
 	afterID, _ := primitive.ObjectIDFromHex(after)
 	paginationStage := bson.D{{"$match", bson.D{{"_id", bson.D{{"$lt", afterID}}}}}}
-	limitStage := bson.D{{"$limit", int64(limit)}}
+	limitStage := bson.D{{"$limit", int64(limit + 1)}}
 	sortStage := bson.D{{"$sort", bson.D{{"_id", -1}}}}
 	matchStage := bson.D{{"$match", search}}
 
@@ -29,13 +29,15 @@ func (r *repository) Search(keyword string, limit int, after string) entity.User
 		panic(err)
 	}
 
-	var models []userModel
+	var models userModels
 	cursor.All(context.TODO(), &models)
 
-	var users []entity.User
-	for _, model := range models {
-		users = append(users, user{model})
+	var users entity.UserConnection
+	if len(models) > limit {
+		users = userConnection{models[:limit].entity(), true}
+	} else {
+		users = userConnection{models.entity(), false}
 	}
 
-	return userConnection{users, limit}
+	return users
 }

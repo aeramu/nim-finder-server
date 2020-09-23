@@ -16,6 +16,16 @@ type userModel struct {
 	Email      string `bson:"email"`
 }
 
+type userModels []userModel
+
+func (m userModels) entity() []entity.User {
+	var users []entity.User
+	for _, model := range m {
+		users = append(users, user{model})
+	}
+	return users
+}
+
 type user struct {
 	m userModel
 }
@@ -49,8 +59,8 @@ func (u user) Jurusan() string {
 }
 
 type userConnection struct {
-	edges []entity.User
-	limit int
+	edges       []entity.User
+	hasNextPage bool
 }
 
 func (uc userConnection) Edges() []entity.User {
@@ -58,7 +68,7 @@ func (uc userConnection) Edges() []entity.User {
 }
 
 func (uc userConnection) PageInfo() entity.PageInfo {
-	return pageInfo{uc.edges[:uc.limit], (len(uc.edges) >= uc.limit)}
+	return pageInfo{uc.edges, uc.hasNextPage}
 }
 
 type pageInfo struct {

@@ -23,7 +23,7 @@ func main() {
 
 	port := port()
 
-	log.Println("Server ready at ", port)
+	log.Println("Server ready at", port)
 	log.Fatal(http.ListenAndServe(port, nil))
 }
 

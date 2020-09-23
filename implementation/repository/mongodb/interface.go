@@ -20,3 +20,8 @@ func New() adapter.Repository {
 		nim:    client.Database("itb").Collection("nim"),
 	}
 }
+
+type repository struct {
+	client *mongo.Client
+	nim    *mongo.Collection
+}

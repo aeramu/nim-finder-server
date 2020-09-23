@@ -9,7 +9,6 @@ type userConnection struct {
 }
 
 func (uc userConnection) Edges() []user {
-
 	var users []user
 	for _, u := range uc.UserConnection.Edges() {
 		users = append(users, user{u})
