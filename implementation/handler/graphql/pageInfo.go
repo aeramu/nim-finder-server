@@ -10,17 +10,18 @@ type pageInfo struct {
 }
 
 func (r pageInfo) StartCursor() *graphql.ID {
-	if r.PageInfo.StartCursor() != nil {
-		cursor := graphql.ID(*r.PageInfo.StartCursor())
-		return &cursor
+	if r.PageInfo.StartCursor() == "" {
+		return nil
 	}
-	return nil
+
+	cursor := graphql.ID(r.PageInfo.StartCursor())
+	return &cursor
 }
 
 func (r pageInfo) EndCursor() *graphql.ID {
-	if r.PageInfo.EndCursor() != nil {
-		cursor := graphql.ID(*r.PageInfo.EndCursor())
-		return &cursor
+	if r.PageInfo.EndCursor() == "" {
+		return nil
 	}
-	return nil
+	cursor := graphql.ID(r.PageInfo.EndCursor())
+	return &cursor
 }

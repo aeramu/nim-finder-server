@@ -19,7 +19,7 @@ type UserConnection interface {
 
 //PageInfo interface
 type PageInfo interface {
-	StartCursor() *string
-	EndCursor() *string
+	StartCursor() string
+	EndCursor() string
 	HasNextPage() bool
 }

@@ -76,20 +76,18 @@ type pageInfo struct {
 	hasNextPage bool
 }
 
-func (p pageInfo) StartCursor() *string {
-	if len(p.edges) > 0 {
-		cursor := p.edges[0].ID()
-		return &cursor
+func (p pageInfo) StartCursor() string {
+	if len(p.edges) == 0 {
+		return ""
 	}
-	return nil
+	return p.edges[0].ID()
 }
 
-func (p pageInfo) EndCursor() *string {
-	if len(p.edges) > 0 {
-		cursor := p.edges[len(p.edges)-1].ID()
-		return &cursor
+func (p pageInfo) EndCursor() string {
+	if len(p.edges) == 0 {
+		return ""
 	}
-	return nil
+	return p.edges[len(p.edges)-1].ID()
 }
 
 func (p pageInfo) HasNextPage() bool {
