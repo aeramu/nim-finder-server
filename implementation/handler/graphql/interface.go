@@ -1,6 +1,7 @@
 package graphql
 
 import (
+	"context"
 	"net/http"
 
 	"github.com/aeramu/nim-finder-server/usecase/service"
@@ -9,12 +10,26 @@ import (
 )
 
 //New handler
-func New(i service.Interactor) http.Handler {
+func New(i service.Interactor) Handler {
 	schema := graphql.MustParseSchema(schemaString, &resolver{
 		i: i,
 	})
 
-	return &relay.Handler{Schema: schema}
+	return &handler{&relay.Handler{Schema: schema}}
+}
+
+//Handler interface
+type Handler interface {
+	http.Handler
+	Response(ctx context.Context, query string, operation string, variables map[string]interface{}) *graphql.Response
+}
+
+type handler struct {
+	*relay.Handler
+}
+
+func (h handler) Response(ctx context.Context, query string, operation string, variables map[string]interface{}) *graphql.Response {
+	return h.Schema.Exec(ctx, query, operation, variables)
 }
 
 var schemaString = `
