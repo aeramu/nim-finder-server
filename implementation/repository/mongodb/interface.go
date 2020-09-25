@@ -12,9 +12,11 @@ var client *mongo.Client
 
 //New repository
 func New() adapter.Repository {
-	client, _ = mongo.Connect(context.Background(), options.Client().ApplyURI(
-		"mongodb+srv://admin:admin@qiup-wrbox.mongodb.net/",
-	))
+	if client == nil {
+		client, _ = mongo.Connect(context.Background(), options.Client().ApplyURI(
+			"mongodb+srv://admin:admin@qiup-wrbox.mongodb.net/",
+		))
+	}
 	return &repository{
 		client: client,
 		nim:    client.Database("itb").Collection("nim"),
