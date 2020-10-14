@@ -1,4 +1,4 @@
-package adapter
+package search
 
 import "github.com/aeramu/nim-finder-server/entity"
 

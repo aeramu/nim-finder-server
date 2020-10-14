@@ -7,14 +7,14 @@ import (
 
 	"github.com/aeramu/nim-finder-server/implementation/handler/graphql"
 	"github.com/aeramu/nim-finder-server/implementation/repository/mongodb"
-	"github.com/aeramu/nim-finder-server/usecase/service"
+	"github.com/aeramu/nim-finder-server/search"
 	"github.com/friendsofgo/graphiql"
 )
 
 //TODOL implement pagination
 func main() {
 	repo := mongodb.New()
-	interactor := service.New(repo)
+	interactor := search.New(repo)
 	handler := graphql.New(interactor)
 	http.Handle("/", enableCORS(handler))
 

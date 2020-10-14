@@ -1,12 +1,12 @@
 package graphql
 
 import (
-	"github.com/aeramu/nim-finder-server/usecase/service"
+	"github.com/aeramu/nim-finder-server/search"
 	"github.com/graph-gophers/graphql-go"
 )
 
 type resolver struct {
-	i service.Interactor
+	i search.Service
 }
 
 func (r *resolver) Search(args struct {

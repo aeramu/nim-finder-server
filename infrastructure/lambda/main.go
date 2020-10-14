@@ -6,7 +6,7 @@ import (
 
 	"github.com/aeramu/nim-finder-server/implementation/handler/graphql"
 	"github.com/aeramu/nim-finder-server/implementation/repository/mongodb"
-	"github.com/aeramu/nim-finder-server/usecase/service"
+	"github.com/aeramu/nim-finder-server/search"
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
 )
@@ -25,7 +25,7 @@ func handler(ctx context.Context, request events.APIGatewayProxyRequest) (events
 	json.Unmarshal([]byte(request.Body), &parameter)
 
 	repo := mongodb.New()
-	interactor := service.New(repo)
+	interactor := search.New(repo)
 	handler := graphql.New(interactor)
 
 	response := handler.Response(ctx, parameter.Query, parameter.OperationName, parameter.Variables)
