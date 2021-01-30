@@ -5,17 +5,17 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/aeramu/nim-finder-server/implementation/handler/graphql"
-	"github.com/aeramu/nim-finder-server/implementation/repository/mongodb"
-	"github.com/aeramu/nim-finder-server/search"
+	"github.com/aeramu/nim-finder-server/internal/handler/graphql"
+	"github.com/aeramu/nim-finder-server/internal/repository/elasticsearch"
+	"github.com/aeramu/nim-finder-server/internal/search"
 	"github.com/friendsofgo/graphiql"
 )
 
 //TODOL implement pagination
 func main() {
-	repo := mongodb.New()
-	interactor := search.New(repo)
-	handler := graphql.New(interactor)
+	repo := elasticsearch.NewStudentRepo()
+	service := search.NewService(repo)
+	handler := graphql.NewHandler(service)
 	http.Handle("/", enableCORS(handler))
 
 	graphiql, _ := graphiql.NewGraphiqlHandler("/")

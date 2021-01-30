@@ -4,15 +4,15 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/aeramu/nim-finder-server/search"
+	"github.com/aeramu/nim-finder-server/internal/search"
 	"github.com/graph-gophers/graphql-go"
 	"github.com/graph-gophers/graphql-go/relay"
 )
 
-//New handler
-func New(i search.Service) Handler {
+//NewHandler handler
+func NewHandler(s search.Service) Handler {
 	schema := graphql.MustParseSchema(schemaString, &resolver{
-		i: i,
+		s: s,
 	})
 
 	return &handler{&relay.Handler{Schema: schema}}
